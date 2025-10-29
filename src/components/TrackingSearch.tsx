@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { Loader2, Search } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
 
 export const TrackingSearch = () => {
   const { toast } = useToast();
@@ -15,14 +16,25 @@ export const TrackingSearch = () => {
     setLoading(true);
 
     try {
-      // TODO: Implementar chamada à edge function quando backend estiver pronto
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      
-      toast({
-        title: "Encomenda Rastreada!",
-        description: "Status: Em trânsito • Última atualização: Hoje",
+      const { data, error } = await supabase.functions.invoke('track-package', {
+        body: { trackingCode }
       });
+
+      if (error) throw error;
+
+      if (data?.success) {
+        const lastUpdate = new Date(data.last_update);
+        const timeAgo = Math.floor((Date.now() - lastUpdate.getTime()) / (1000 * 60 * 60));
+        
+        toast({
+          title: "Encomenda Rastreada!",
+          description: `Status: ${data.status} • Há ${timeAgo}h`,
+        });
+      } else {
+        throw new Error(data?.error || 'Erro ao rastrear');
+      }
     } catch (error) {
+      console.error('Erro ao rastrear:', error);
       toast({
         title: "Erro ao rastrear",
         description: "Verifique o código e tente novamente",

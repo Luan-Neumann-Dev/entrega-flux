@@ -1,1 +1,7 @@
 project_id = "zdghhhgjjovoynjzcxtj"
+
+[functions.calculate-freight]
+verify_jwt = false
+
+[functions.track-package]
+verify_jwt = false

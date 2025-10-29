@@ -14,7 +14,78 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      shipping_calculations: {
+        Row: {
+          created_at: string
+          delivery_days: number | null
+          destination_zip: string
+          height: number | null
+          id: string
+          length: number | null
+          origin_zip: string
+          price: number | null
+          response_data: Json | null
+          service_type: string | null
+          weight: number
+          width: number | null
+        }
+        Insert: {
+          created_at?: string
+          delivery_days?: number | null
+          destination_zip: string
+          height?: number | null
+          id?: string
+          length?: number | null
+          origin_zip: string
+          price?: number | null
+          response_data?: Json | null
+          service_type?: string | null
+          weight: number
+          width?: number | null
+        }
+        Update: {
+          created_at?: string
+          delivery_days?: number | null
+          destination_zip?: string
+          height?: number | null
+          id?: string
+          length?: number | null
+          origin_zip?: string
+          price?: number | null
+          response_data?: Json | null
+          service_type?: string | null
+          weight?: number
+          width?: number | null
+        }
+        Relationships: []
+      }
+      tracking_queries: {
+        Row: {
+          created_at: string
+          id: string
+          last_update_date: string | null
+          response_data: Json | null
+          status: string | null
+          tracking_code: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          last_update_date?: string | null
+          response_data?: Json | null
+          status?: string | null
+          tracking_code: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          last_update_date?: string | null
+          response_data?: Json | null
+          status?: string | null
+          tracking_code?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
